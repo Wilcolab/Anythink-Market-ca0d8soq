@@ -8,6 +8,12 @@ jobs:
   deploy:
     name: Deployment
     runs-on: ubuntu-20.04
+    environment:
+      name: production
+      url: https://${{ env.AZURE_APP_NAME }}.azurecontainerapps.io
+    concurrency:
+      group: production-deployment
+      cancel-in-progress: false
     steps:
     - name: Checkout
       uses: actions/checkout@v3
