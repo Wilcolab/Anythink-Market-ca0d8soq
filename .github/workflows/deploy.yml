@@ -8,6 +8,9 @@ jobs:
   deploy:
     name: Deployment
     runs-on: ubuntu-20.04
+    environment:
+      name: production
+      url: https://${{ env.AZURE_APP_NAME }}.azurecontainerapps.io
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -24,4 +27,4 @@ jobs:
 
     - name: Deploy to Azure
       run: |
-        az containerapp up -n $AZURE_APP_NAME --ingress external --target-port 3000 --source .
+        az containerapp up -n $AZURE_APP_NAME --ingress external --target-port 3000 --source . --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --environment ${{ secrets.AZURE_ENVIRONMENT }}
